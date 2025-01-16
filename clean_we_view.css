@@ -1,9 +1,5 @@
-#img-content {
-  width: 216.8%;
-  margin: 0 auto;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+#page-content > div {
+  max-width: 80%;
 }
 
 #activity-name {
