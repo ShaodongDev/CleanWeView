@@ -1,0 +1,24 @@
+#img-content {
+  width: 216.8%;
+  margin: 0 auto;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#activity-name {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  margin: 0.5em 0;
+}
+
+#meta_content {
+  font-size: 1.2em;
+  text-align: center;
+  margin: 0.5em 0;
+}
+
+#js_pc_qr_code > div > div {
+  display: none;
+}
