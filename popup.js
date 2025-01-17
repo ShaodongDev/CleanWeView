@@ -7,12 +7,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (result.extensionEnabled) {
       toggleButton.textContent = "Disable Extension";
       widthRange.disabled = false;
+      if (result.pageWidth) {
+        widthRange.value = result.pageWidth;
+      }
+      // Apply the stored width
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.scripting.executeScript({
+          target: { tabId: tabs[0].id },
+          func: (width) => {
+            document.querySelector(
+              "#page-content > div"
+            ).style.maxWidth = `${width}%`;
+          },
+          args: [result.pageWidth || 80],
+        });
+      });
     } else {
       toggleButton.textContent = "Enable Extension";
       widthRange.disabled = true;
-    }
-    if (result.pageWidth) {
-      widthRange.value = result.pageWidth;
     }
   });
 
@@ -38,6 +50,21 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleButton.textContent = "Disable Extension";
       widthRange.disabled = false;
       chrome.storage.sync.set({ extensionEnabled: true });
+
+      // Set width to user-defined value or default to 80%
+      chrome.storage.sync.get("pageWidth", (result) => {
+        const width = result.pageWidth || 80;
+        widthRange.value = width;
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: (width) => {
+            document.querySelector(
+              "#page-content > div"
+            ).style.maxWidth = `${width}%`;
+          },
+          args: [width],
+        });
+      });
     } else if (nextState === "OFF") {
       await chrome.scripting.removeCSS({
         files: ["clean_we_view.css"],
