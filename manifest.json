@@ -5,7 +5,9 @@
   "description": "微信公众号文章网页美化",
   "version": "1.1",
 
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": ["activeTab", "scripting", "storage", "tabs"],
+
+  "host_permissions": ["https://mp.weixin.qq.com/*"],
 
   "icons": {
     "16": "images/icon16.png",
