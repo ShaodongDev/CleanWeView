@@ -26,7 +26,7 @@
       "48": "images/icon48.png",
       "128": "images/icon128.png"
     },
-    "default_title": "CleanWeView - 微信公众号文章网页美化\n点击图标即可开关插件"
+    "default_title": "CleanWeView - 微信公众号文章网页美化\n点击图标即可配置插件功能"
   },
 
   "content_scripts": [

@@ -1,90 +1,85 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleButton = document.getElementById("toggle-extension");
+document.addEventListener("DOMContentLoaded", async () => {
+  const toggleSwitch = document.getElementById("toggleSwitch");
   const widthRange = document.getElementById("width-range");
 
-  // Initialize the extension state and width range value
-  chrome.storage.sync.get(["extensionEnabled", "pageWidth"], (result) => {
-    if (result.extensionEnabled) {
-      toggleButton.textContent = "Disable Extension";
-      widthRange.disabled = false;
-      if (result.pageWidth) {
-        widthRange.value = result.pageWidth;
-      }
-      // Apply the stored width
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        chrome.scripting.executeScript({
-          target: { tabId: tabs[0].id },
-          func: (width) => {
-            document.querySelector(
-              "#page-content > div"
-            ).style.maxWidth = `${width}%`;
-          },
-          args: [result.pageWidth || 80],
-        });
+  // Load the initial state from storage
+  chrome.storage.sync.get(["extensionEnabled", "pageWidth"], async (result) => {
+    toggleSwitch.checked = result.extensionEnabled || false;
+    widthRange.value = result.pageWidth || 80;
+    widthRange.disabled = !toggleSwitch.checked;
+
+    // Apply the stored width setting if the extension is enabled
+    if (toggleSwitch.checked) {
+      const [tab] = await chrome.tabs.query({
+        active: true,
+        currentWindow: true,
       });
-    } else {
-      toggleButton.textContent = "Enable Extension";
-      widthRange.disabled = true;
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: (width) => {
+          const element = document.querySelector("#page-content > div");
+          if (element) {
+            element.style.maxWidth = `${width}%`;
+          }
+        },
+        args: [result.pageWidth || 80],
+      });
     }
   });
 
-  // Toggle extension on/off
-  toggleButton.addEventListener("click", async () => {
+  // Handle switch toggle
+  toggleSwitch.addEventListener("change", async (event) => {
+    const isEnabled = event.target.checked;
+    chrome.storage.sync.set({ extensionEnabled: isEnabled });
+
     const [tab] = await chrome.tabs.query({
       active: true,
       currentWindow: true,
     });
-    const prevState = await chrome.action.getBadgeText({ tabId: tab.id });
-    const nextState = prevState === "ON" ? "OFF" : "ON";
-
-    await chrome.action.setBadgeText({
-      tabId: tab.id,
-      text: nextState,
-    });
-
-    if (nextState === "ON") {
-      await chrome.scripting.insertCSS({
+    if (isEnabled) {
+      chrome.action.setBadgeText({ text: "ON", tabId: tab.id });
+      chrome.scripting.insertCSS({
         files: ["clean_we_view.css"],
         target: { tabId: tab.id },
       });
-      toggleButton.textContent = "Disable Extension";
       widthRange.disabled = false;
-      chrome.storage.sync.set({ extensionEnabled: true });
 
-      // Set width to user-defined value or default to 80%
+      // Apply the stored width setting
       chrome.storage.sync.get("pageWidth", (result) => {
         const width = result.pageWidth || 80;
-        widthRange.value = width;
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
           func: (width) => {
-            document.querySelector(
-              "#page-content > div"
-            ).style.maxWidth = `${width}%`;
+            const element = document.querySelector("#page-content > div");
+            if (element) {
+              element.style.maxWidth = `${width}%`;
+            }
           },
           args: [width],
         });
       });
-    } else if (nextState === "OFF") {
-      await chrome.scripting.removeCSS({
+    } else {
+      chrome.action.setBadgeText({ text: "OFF", tabId: tab.id });
+      chrome.scripting.removeCSS({
         files: ["clean_we_view.css"],
         target: { tabId: tab.id },
       });
-      toggleButton.textContent = "Enable Extension";
       widthRange.disabled = true;
-      chrome.storage.sync.set({ extensionEnabled: false });
 
-      // Reset the width of #page-content > div to its original state
+      // Reset the page to its original state
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: () => {
-          document.querySelector("#page-content > div").style.maxWidth = "";
+          const element = document.querySelector("#page-content > div");
+          if (element) {
+            element.style.maxWidth = "";
+          }
         },
       });
     }
   });
 
-  // Adjust width of #page-content > div
+  // Handle width range change
   widthRange.addEventListener("input", async (event) => {
     const width = event.target.value;
     chrome.storage.sync.set({ pageWidth: width });
@@ -96,9 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: (width) => {
-        document.querySelector(
-          "#page-content > div"
-        ).style.maxWidth = `${width}%`;
+        const element = document.querySelector("#page-content > div");
+        if (element) {
+          element.style.maxWidth = `${width}%`;
+        }
       },
       args: [width],
     });

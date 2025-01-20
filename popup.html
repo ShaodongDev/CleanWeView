@@ -2,14 +2,19 @@
 
 <html>
   <head>
+    <meta charset="utf-8" />
     <title>CleanWeView 微信公众号文章美化</title>
     <link rel="stylesheet" type="text/css" href="popup.css" />
   </head>
 
   <body>
     <div class="container">
-      <button id="toggle-extension">Toggle Extension</button>
-      <label for="width-range">Width:</label>
+      <label for="toggleSwitch">CleanWeView</label>
+      <label class="switch">
+        <input type="checkbox" id="toggleSwitch" />
+        <span class="slider"></span>
+      </label>
+      <label for="width-range">宽度:</label>
       <input
         type="range"
         id="width-range"
