@@ -2,13 +2,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const toggleSwitch = document.getElementById("toggleSwitch");
   const widthRange = document.getElementById("width-range");
 
-  // Load the initial state from storage
   chrome.storage.sync.get(["extensionEnabled", "pageWidth"], async (result) => {
     toggleSwitch.checked = result.extensionEnabled || false;
     widthRange.value = result.pageWidth || 80;
     widthRange.disabled = !toggleSwitch.checked;
 
-    // Apply the stored width setting if the extension is enabled
     if (toggleSwitch.checked) {
       const [tab] = await chrome.tabs.query({
         active: true,
@@ -27,7 +25,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Handle switch toggle
   toggleSwitch.addEventListener("change", async (event) => {
     const isEnabled = event.target.checked;
     chrome.storage.sync.set({ extensionEnabled: isEnabled });
@@ -44,7 +41,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
       widthRange.disabled = false;
 
-      // Apply the stored width setting
       chrome.storage.sync.get("pageWidth", (result) => {
         const width = result.pageWidth || 80;
         chrome.scripting.executeScript({
@@ -66,7 +62,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
       widthRange.disabled = true;
 
-      // Reset the page to its original state
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: () => {
@@ -79,7 +74,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Handle width range change
   widthRange.addEventListener("input", async (event) => {
     const width = event.target.value;
     chrome.storage.sync.set({ pageWidth: width });
