@@ -2,22 +2,43 @@
 
 <html>
   <head>
+    <meta charset="utf-8" />
     <title>CleanWeView 微信公众号文章美化</title>
     <link rel="stylesheet" type="text/css" href="popup.css" />
   </head>
 
   <body>
-    <div class="container">
-      <button id="toggle-extension">Toggle Extension</button>
-      <label for="width-range">Width:</label>
-      <input
-        type="range"
-        id="width-range"
-        min="50"
-        max="100"
-        value="80"
-        disabled
-      />
+    <div class="settings-container">
+      <!-- CleanWeView Toggle Section -->
+      <div class="settings-section">
+        <div class="section-header">
+          <h2>CleanWeView 微信公众号文章美化</h2>
+        </div>
+        <div class="control-wrapper">
+          <label class="toggle">
+            <input type="checkbox" id="toggleSwitch" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Width Adjustment Section -->
+      <div class="settings-section">
+        <div class="section-header">
+          <h2>页宽</h2>
+        </div>
+        <div class="control-wrapper">
+          <div class="range-container">
+            <input
+              type="range"
+              id="width-range"
+              min="50"
+              max="100"
+              value="80"
+            />
+          </div>
+        </div>
+      </div>
     </div>
     <script src="popup.js"></script>
   </body>
