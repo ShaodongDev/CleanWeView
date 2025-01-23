@@ -1,10 +1,10 @@
-# <img src= ".\images\title_icon.png" style="zoom:5%;" /> CleanWeView  微信公众号文章网页美化工具
+# CleanWeView 微信公众号文章网页美化工具
 
-CleanWeView ： 微信公众号文章网页美化工具
+<img src="./images/title_icon.png" style="zoom:4%;"/>  CleanWeView ： 微信公众号文章网页美化工具
 
-专为优化 PC 端微信公众号文章的阅读体验而设计 。 
+专为优化 PC 端微信公众号文章的阅读体验而设计 。
 
-CleanWeView能够简化公众号文章的页面布局 ， 保持整洁美观 ， 同时增加页面宽度 ， 显示更多文字内容 。
+CleanWeView 能够简化公众号文章的页面布局 ， 保持整洁美观 ， 同时增加页面宽度 ， 显示更多文字内容 。
 
 ## 功能
 
@@ -40,9 +40,8 @@ v1.0 ：
 
 ## 使用方法
 
-安装后点击CleanWeView图标即可配置插件功能。
+安装后点击 CleanWeView 图标即可配置插件功能。
 
 ## 下载
 
 [![Badge](./promo/badge.png)](https://chromewebstore.google.com/detail/cleanweview/gcfpfeiboojafinlacpiapddfbabnlkk)
-
