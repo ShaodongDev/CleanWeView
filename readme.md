@@ -1,6 +1,6 @@
 # CleanWeView 微信公众号文章网页美化工具
 
-<img src="./images/title_icon.png" style="zoom:4%;"/>  CleanWeView ： 微信公众号文章网页美化工具
+CleanWeView ： 微信公众号文章网页美化工具
 
 专为优化 PC 端微信公众号文章的阅读体验而设计 。
 
