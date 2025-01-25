@@ -3,7 +3,7 @@
 
 **作者：Shaodong**
 
-非常感谢陆景宽（@linvie）的支持与帮助，他的作品 [readeaser](https://chromewebstore.google.com/detail/readeaser/pfibgbgioglhioghjjikmndejenllpnh) 启发了我开发这款插件。
+非常感谢 **linvie li** ([@linvie](https://github.com/linvie))的支持与帮助，他的作品 [readeaser](https://chromewebstore.google.com/detail/readeaser/pfibgbgioglhioghjjikmndejenllpnh) 启发了我开发这款插件。
 
 CleanWeView 专为优化 PC 端微信公众号文章的阅读体验而设计。它能够简化公众号文章的页面布局，保持整洁美观，同时增加页面宽度，显示更多文字内容。
 
