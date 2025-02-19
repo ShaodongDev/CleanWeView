@@ -1,29 +1,42 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const toggleSwitch = document.getElementById("toggleSwitch");
   const widthRange = document.getElementById("width-range");
+  const colorOptions = document.querySelectorAll(
+    'input[name="background-color"]'
+  );
 
-  chrome.storage.sync.get(["extensionEnabled", "pageWidth"], async (result) => {
-    toggleSwitch.checked = result.extensionEnabled || false;
-    widthRange.value = result.pageWidth || 80;
-    widthRange.disabled = !toggleSwitch.checked;
+  chrome.storage.sync.get(
+    ["extensionEnabled", "pageWidth", "backgroundColor"],
+    async (result) => {
+      toggleSwitch.checked = result.extensionEnabled || false;
+      widthRange.value = result.pageWidth || 80;
+      widthRange.disabled = !toggleSwitch.checked;
 
-    if (toggleSwitch.checked) {
-      const [tab] = await chrome.tabs.query({
-        active: true,
-        currentWindow: true,
-      });
-      chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: (width) => {
-          const element = document.querySelector("#page-content > div");
-          if (element) {
-            element.style.maxWidth = `${width}%`;
-          }
-        },
-        args: [result.pageWidth || 80],
-      });
+      // Set the saved radio button as checked
+      if (result.backgroundColor) {
+        document.querySelector(
+          `input[value="${result.backgroundColor}"]`
+        ).checked = true;
+      }
+
+      if (toggleSwitch.checked) {
+        const [tab] = await chrome.tabs.query({
+          active: true,
+          currentWindow: true,
+        });
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: (width) => {
+            const element = document.querySelector("#page-content > div");
+            if (element) {
+              element.style.maxWidth = `${width}%`;
+            }
+          },
+          args: [result.pageWidth || 80],
+        });
+      }
     }
-  });
+  );
 
   toggleSwitch.addEventListener("change", async (event) => {
     const isEnabled = event.target.checked;
@@ -41,17 +54,33 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
       widthRange.disabled = false;
 
-      chrome.storage.sync.get("pageWidth", (result) => {
+      chrome.storage.sync.get(["pageWidth", "backgroundColor"], (result) => {
         const width = result.pageWidth || 80;
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
-          func: (width) => {
-            const element = document.querySelector("#page-content > div");
-            if (element) {
-              element.style.maxWidth = `${width}%`;
+          func: (width, backgroundColor) => {
+            const contentElement = document.querySelector("#page-content");
+            const divElement = document.querySelector("#page-content > div");
+
+            if (divElement) {
+              divElement.style.maxWidth = `${width}%`;
+            }
+
+            if (contentElement && backgroundColor) {
+              contentElement.style.backgroundColor =
+                backgroundColor + " !important";
+
+              // Change text color to white if background is dark
+              if (backgroundColor === "#222831") {
+                document
+                  .querySelectorAll("#page-content, #page-content *")
+                  .forEach((el) => {
+                    el.style.color = "#ffffff";
+                  });
+              }
             }
           },
-          args: [width],
+          args: [width, result.backgroundColor],
         });
       });
     } else {
@@ -65,10 +94,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: () => {
-          const element = document.querySelector("#page-content > div");
-          if (element) {
-            element.style.maxWidth = "";
+          const contentElement = document.querySelector("#page-content");
+          const divElement = document.querySelector("#page-content > div");
+
+          if (divElement) {
+            divElement.style.maxWidth = "";
           }
+
+          if (contentElement) {
+            contentElement.style.backgroundColor = "";
+          }
+
+          // Reset text color
+          document
+            .querySelectorAll("#page-content, #page-content *")
+            .forEach((el) => {
+              el.style.color = "";
+            });
         },
       });
     }
@@ -93,4 +135,69 @@ document.addEventListener("DOMContentLoaded", async () => {
       args: [width],
     });
   });
+
+  // Add event listeners to all color radio buttons
+  colorOptions.forEach((option) => {
+    option.addEventListener("change", async (event) => {
+      if (event.target.checked) {
+        const selectedColor = event.target.value;
+
+        // Save the selected color to storage
+        chrome.storage.sync.set({ backgroundColor: selectedColor });
+
+        // Apply color change if extension is enabled
+        if (toggleSwitch.checked) {
+          const [tab] = await chrome.tabs.query({
+            active: true,
+            currentWindow: true,
+          });
+
+          chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: (color) => {
+              const contentElement = document.querySelector("#page-content");
+              if (contentElement) {
+                contentElement.style.backgroundColor = color;
+                // Force the style to be applied with higher specificity
+                contentElement.setAttribute(
+                  "style",
+                  `background-color: ${color} !important`
+                );
+
+                // Set text color based on background color
+                if (color === "#222831") {
+                  // Dark mode - set text to white
+                  document
+                    .querySelectorAll("#page-content, #page-content *")
+                    .forEach((el) => {
+                      el.style.color = "#ffffff";
+                    });
+                } else {
+                  // Light mode - reset text color
+                  document
+                    .querySelectorAll("#page-content, #page-content *")
+                    .forEach((el) => {
+                      el.style.color = "";
+                    });
+                }
+              }
+            },
+            args: [selectedColor],
+          });
+        }
+      }
+    });
+  });
+});
+
+// for href of title
+document.addEventListener("DOMContentLoaded", function () {
+  const link = document.querySelector(".title-link");
+  if (link) {
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+      const url = link.getAttribute("href");
+      chrome.tabs.create({ url });
+    });
+  }
 });
