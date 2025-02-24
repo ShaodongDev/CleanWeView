@@ -46,6 +46,13 @@ body {
 
 .section-header h2 {
   margin: 0;
+  font-size: 25px;
+  font-weight: 800;
+}
+/* make h2 take a full line like dark reader */
+
+.section-header h4 {
+  margin: 0;
   font-size: 15px;
   font-weight: 500;
 }
