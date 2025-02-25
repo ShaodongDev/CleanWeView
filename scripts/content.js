@@ -11,6 +11,12 @@ chrome.storage.sync.get(["extensionEnabled", "pageWidth"], (result) => {
     link.href = chrome.runtime.getURL("clean_we_view.css");
     // .runtime to retrieve the current status of extenion including the structure tree so that the js knows where is the .css file
     document.head.append(link);
+
+    // Remove background-color from all inline styles
+    const elements = document.querySelectorAll("*");
+    elements.forEach((element) => {
+      element.style.backgroundColor = "";
+    });
   }
 });
 

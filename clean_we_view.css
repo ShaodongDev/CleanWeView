@@ -1,3 +1,7 @@
+#page-content {
+  background-color: #d8eed3 !important;
+}
+
 #page-content > div {
   max-width: 80%;
 }
