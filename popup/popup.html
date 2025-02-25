@@ -20,18 +20,18 @@
             </a>
           </h2>
           <h3>微信公众号文章美化</h3>
+          <div class="control-wrapper-toggle">
+            <label class="toggle">
+              <input type="checkbox" id="toggleSwitch" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
         </div>
         
-        <div class="control-wrapper">
-          <label class="toggle">
-            <input type="checkbox" id="toggleSwitch" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
       </div>
 
       <!-- Width Adjustment Section -->
-      <div class="settings-section">
+      <div class="section">
         <div class="section-header">
           <h4>页宽</h4>
         </div>
@@ -47,6 +47,36 @@
           </div>
         </div>
       </div>
+
+    <!-- BgColor Adjustment Section -->
+      <div class="section">
+        <div class="section-header">
+          <h4>背景颜色</h4>
+        </div>
+        <div class="control-wrapper">
+          <div class="color-options">
+            <label>
+              <input type="radio" name="background-color" value="#ffffff" checked />
+              <span style="background-color: #ffffff;"></span>
+            </label>
+            <label>
+              <input type="radio" name="background-color" value="#f6f2e1" />
+              <span style="background-color: #f6f2e1;"></span>
+            </label>
+            <label>
+              <input type="radio" name="background-color" value="#d3efd1" />
+              <span style="background-color: #d3efd1;"></span>
+            </label>
+            <label>
+              <input type="radio" name="background-color" value="#222831" />
+              <span style="background-color: #222831;"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      
+
+      
     </div>
 
     <script src="popup.js"></script>
