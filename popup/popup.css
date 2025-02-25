@@ -1,19 +1,17 @@
-/* Base styles */
-
 * {
   box-sizing: border-box;
 }
 
 body {
-  width: 260px;
-  height: 290px;
+  width: 268px;
+  height: 250px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, sans-serif;
   margin: 0;
-  padding: 5px;
+  padding: 8px;
   background-color: #f5f5f5;
   color: #333;
-  position: relative;
+  /* position: relative; */
   border: 1px solid black;
 }
 
@@ -24,30 +22,30 @@ body {
   padding: 0 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 250px;
-  height: 36%;
+  height: 80px;
   margin-bottom: 5px;
 }
 
 /* every-section */
 .settings-container2 {
-  /* position: absolute; */
+  position: relative;
   background: white;
   border-radius: 12px;
   padding: 0 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 250px;
-  height: 25%;
+  height: 70px;
   margin-bottom: 5px;
 }
 
 .settings-container3 {
-  position: absolute;
+  position: relative;
   background: white;
   border-radius: 12px;
   padding: 0 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 250px;
-  height: 25%;
+  height: 70px;
   margin: 0;
   margin-bottom: 5px;
 }
@@ -68,37 +66,41 @@ body {
 }
 
 .section-header {
-  margin-bottom: 13px;
+  margin-bottom: 13px; /*no is ok?*/
 }
 
-.section-header h2 {
+.section-header1 {
+  position: absolute;
+  margin-top: 5px;
+}
+
+h2 {
   margin: 0;
   font-size: 30px;
   font-weight: 800;
   justify-content: center;
   align-items: baseline;
 }
-/* make h2 take a full line like dark reader */
 
-.section-header h3 {
+h2 .highlight {
+  color: #58be6a;
+  font-size: 40px;
+  margin: 0;
+}
+
+h3 {
   /* 汉字标题*/
-  margin: 0 0 2px 0;
-  font-size: 15px;
+  margin: 4px 0 7px 1px;
+  font-size: 14px;
   display: inline-block;
   vertical-align: middle;
   font-weight: 550;
 }
 
-.section-header h4 {
+h4 {
   margin: 0;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.section-header h2 .highlight {
-  color: #58be6a;
-  font-size: 40px;
-  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .control-wrapper {
@@ -110,15 +112,15 @@ body {
 .control-wrapper-toggle {
   display: inline-block;
   vertical-align: middle;
-  margin-left: 26px; /* Adjust the margin as needed */
+  margin-left: 42px; /* Adjust the margin as needed */
 }
 
 /* Toggle switch styling */
 .toggle {
   position: relative;
   display: inline-block;
-  width: 49px;
-  height: 24px;
+  width: 46px;
+  height: 20px;
 }
 
 .toggle input {
@@ -142,8 +144,8 @@ body {
 .toggle-slider:before {
   position: absolute;
   content: "";
-  height: 20px;
-  width: 20px;
+  height: 16px;
+  width: 16px;
   left: 2px;
   bottom: 2px;
   background-color: white;
@@ -156,7 +158,7 @@ input:checked + .toggle-slider {
 }
 
 input:checked + .toggle-slider:before {
-  transform: translateX(25px);
+  transform: translateX(26px);
 }
 
 /* Range slider styling */
@@ -170,11 +172,13 @@ input:checked + .toggle-slider:before {
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  width: 100%;
+  width: 85%;
   height: 6px;
   background: #ddd;
   border-radius: 2px;
   outline: none;
+  top: 39px;
+  position: absolute;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -189,6 +193,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 .color-options {
   display: flex;
+  position: absolute;
+  top: 34px;
   gap: 41px;
 }
 
