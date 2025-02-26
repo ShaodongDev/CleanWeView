@@ -94,3 +94,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 });
+
+// for href of title
+document.addEventListener("DOMContentLoaded", function () {
+  const link = document.querySelector(".title-link");
+  if (link) {
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+      const url = link.getAttribute("href");
+      chrome.tabs.create({ url });
+    });
+  }
+});
