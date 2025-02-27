@@ -36,7 +36,7 @@ v1.0：
 
 <img src=".\promo\after.png" style="zoom:80%;" />
 
-<img src=".\promo\BgDemo.png" style="zoom:75%;" />
+<img src=".\promo\BgDemo.png" style="zoom:80%;" />
 
 ## 使用方法
 
